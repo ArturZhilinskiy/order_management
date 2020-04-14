@@ -1,6 +1,7 @@
 import { LightningElement, api, wire, track } from 'lwc';
 
-import ACCOUT_NAME_FIELD from '@salesforce/schema/Account.Name';
+import ACCOUNT_OBJECT from '@salesforce/schema/Account';
+import ACCOUNT_NAME_FIELD from '@salesforce/schema/Account.Name';
 import ACCOUNT_NUMBER_FIELD from '@salesforce/schema/Account.AccountNumber';
 
 import PRODUCT_OBJECT from '@salesforce/schema/Product__c';
@@ -23,9 +24,9 @@ import { ShowToastEvent } from 'lightning/platformShowToastEvent'
 
 export default class OrderManagementHeader extends LightningElement {
     @api recordId = '0015I0000048a4qQAA';
-    @api objectApiName = 'Account';
 
-    accountFields = [ACCOUT_NAME_FIELD, ACCOUNT_NUMBER_FIELD];
+    objectApiName = ACCOUNT_OBJECT;
+    accountFields = [ACCOUNT_NAME_FIELD, ACCOUNT_NUMBER_FIELD];
     
     product = {
         objectApiName : PRODUCT_OBJECT,
