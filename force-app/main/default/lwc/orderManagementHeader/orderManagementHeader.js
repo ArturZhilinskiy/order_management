@@ -65,7 +65,7 @@ export default class OrderManagementHeader extends LightningElement {
         });
         this.dispatchEvent(evt);
 
-        fireEvent(this.pageRef, 'addProduct');
+        fireEvent(this.pageRef, 'allProductListUpdate');
 
         this.showCreateProductForm = false;
     }
