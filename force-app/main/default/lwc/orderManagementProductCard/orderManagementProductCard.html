@@ -1,14 +1,27 @@
 <template>
     <div class="card">
-        <img src={product.Image} alt="Avatar" style="width:100%; height: auto;">
-        <div class="container">
+        <img src={product.image} alt="Avatar" style="width:100%; height: auto;">
+        <div class="container slds-m-top_small slds-m-bottom_small">
             <h4><b>{product.name}</b></h4>
-            <p>{product.price}</p>
-            <lightning-layout multiple-rows="true">
+            <p>
+                <lightning-formatted-number 
+                    value={product.price}
+                    format-style="currency"
+                    currency-code="RUB"
+                    class="slds-m-vertical--small">
+                </lightning-formatted-number>
+            </p>
+            <div class="slds-p-around_xx-small lgc-bg">
+                <lightning-helptext 
+                    icon-name="utility:description"
+                    content={product.description}>
+                </lightning-helptext>
+            </div>
+            <lightning-layout multiple-rows="true" class="slds-m-vertical--small">
                 <lightning-layout-item size="6">
                     <lightning-button
                         label="Details"
-                        class="slds-m-horizontal--small"
+                        class="slds-m-horizontal--small"    
                         onclick={handleDetailsClick}>
                     </lightning-button>
                 </lightning-layout-item>
