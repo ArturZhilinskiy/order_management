@@ -5,12 +5,20 @@ import PRODUCT_OBJECT from '@salesforce/schema/Product__c';
 
 import { ShowToastEvent } from 'lightning/platformShowToastEvent'
 
+import{ CurrentPageReference } from 'lightning/navigation';
+import { registerListener, unregisterAllListeners } from 'c/pubsub';
+
 export default class OrderManagementProductArea extends LightningElement {
 
     @track filteredProducts = [];
 
+    @wire(CurrentPageReference)
+    pageRef;
+
     allProducts = [];
     listViewApiName = 'orderManagement_All'
+
+    productNameForSearch = '';
 
     @wire( getListUi, { objectApiName: PRODUCT_OBJECT, listViewApiName: '$listViewApiName'})
     loadProducts(result) {
@@ -23,6 +31,7 @@ export default class OrderManagementProductArea extends LightningElement {
                 }
                 this.allProducts.push(product);
             }
+            this.filterProduts(this.productNameForSearch);
         } else if (result.error) {
             const evt = new ShowToastEvent({
                 title: "Error",
@@ -33,13 +42,24 @@ export default class OrderManagementProductArea extends LightningElement {
         }
     }
 
+    connectedCallback() {
+        registerListener('allProductListUpdate', this.loadAllProducts, this);
+    }
+
+    disconnectedCallback() {
+        unregisterAllListeners(this);
+    }
+
     loadAllProducts() {
         this.listViewApiName = this.listViewApiName == 'orderManagement_All' ? 'OrderManagement_All' : 'orderManagement_All';
     }
 
     handleSearchChange(event) {
-        let searchValue = ((event.target.value).trim()).toLowerCase();
-        
+        this.productNameForSearch = ((event.target.value).trim()).toLowerCase();
+        this.filterProduts(this.productNameForSearch);
+    }
+
+    filterProduts(searchValue) {
         this.filteredProducts = this.allProducts.filter(value => {
             let nameValue = (value.Name).toLowerCase();
             return nameValue.includes(searchValue);
