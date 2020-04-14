@@ -10,8 +10,12 @@
                     class="slds-m-horizontal--small">
                 </lightning-input>
             </lightning-layout-item>
-            <lightning-layout-item size="12">
-
+            <lightning-layout-item size="12" class="slds-wrap slds-text-align--center">
+                <template for:each={filteredProducts} for:item="product">
+                    <div key={product.id} style="display:inline-block; width: 240px;" class="slds-m-around--small">
+                        <c-order-management-product-card product={product}></c-order-management-product-card>
+                    </div>
+                </template>
             </lightning-layout-item>
         </lightning-layout>
     </div>

@@ -1,0 +1,25 @@
+<template>
+    <div class="card">
+        <img src={product.Image} alt="Avatar" style="width:100%; height: auto;">
+        <div class="container">
+            <h4><b>{product.name}</b></h4>
+            <p>{product.price}</p>
+            <lightning-layout multiple-rows="true">
+                <lightning-layout-item size="6">
+                    <lightning-button
+                        label="Details"
+                        class="slds-m-horizontal--small"
+                        onclick={handleDetailsClick}>
+                    </lightning-button>
+                </lightning-layout-item>
+                <lightning-layout-item size="6">
+                    <lightning-button
+                        label="Add"
+                        class="slds-m-right--small"
+                        onclick={handleAddClick}>
+                    </lightning-button>
+                </lightning-layout-item>
+            </lightning-layout>
+        </div>
+    </div>
+</template>
