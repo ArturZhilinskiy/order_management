@@ -1,0 +1,87 @@
+<template>
+    <lightning-card  title="Order Management">
+        <lightning-button
+            if:true={isManager} 
+            label="Create Product"
+            slot="actions"
+            class="slds-m-horizontal--small"
+            onclick={handleCreateProductClick}>
+        </lightning-button>
+        <lightning-button 
+            label="Cart" 
+            slot="actions">
+        </lightning-button>
+        
+        <div class="slds-m-horizontal--small">
+            <lightning-record-form
+                record-id={recordId}
+                object-api-name={objectApiName}
+                fields={accountFields}
+                columns="2"
+                mode="readonly">
+            </lightning-record-form>
+        </div>
+        
+        <lightning-record-edit-form
+            if:true={showCreateProductForm}
+            object-api-name="Product__c"
+            onsuccess={handleSuccess}>
+            <lightning-messages>
+            </lightning-messages>
+
+            <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+                <div class="slds-modal__container">
+                    <header class="slds-modal__header">
+                        <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse" title="Close" onclick={handleCancel}>
+                            <lightning-icon icon-name="utility:close"
+                                alternative-text="close"
+                                variant="inverse"
+                                size="small" ></lightning-icon>
+                            <span class="slds-assistive-text">Close</span>
+                        </button>
+                        <h2 id="modal-heading-01" class="slds-text-heading_medium slds-hyphenate">New Product</h2>
+                    </header>
+
+                    <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+                        <lightning-layout multiple-rows="true">
+                            <lightning-layout-item size="6">
+                                <lightning-input-field field-name={product.fields.image}></lightning-input-field>
+                            </lightning-layout-item>
+                            <lightning-layout-item size="6">
+                                <lightning-input-field field-name={product.fields.name}></lightning-input-field>
+                            </lightning-layout-item>
+                            <lightning-layout-item size="6">
+                                <lightning-input-field field-name={product.fields.family}></lightning-input-field>
+                            </lightning-layout-item>
+                            <lightning-layout-item size="6">
+                                <lightning-input-field field-name={product.fields.type}></lightning-input-field>
+                            </lightning-layout-item>
+                            <lightning-layout-item size="6">
+                                <lightning-input-field field-name={product.fields.price}></lightning-input-field>
+                            </lightning-layout-item>
+                            <lightning-layout-item size="12">
+                                <lightning-input-field field-name={product.fields.description}></lightning-input-field>
+                            </lightning-layout-item>
+                        </lightning-layout>
+                    </div>
+
+                    <footer class="slds-modal__footer">
+                        <lightning-button
+                            class="slds-m-horizontal--small"
+                            type="submit"
+                            variant="brand"
+                            label="Save">
+                        </lightning-button>
+                        <lightning-button
+                            class="slds-m-top_small"
+                            label="Cancel"
+                            onclick={handleCancel}>
+                        </lightning-button>
+                    </footer>
+                </div>
+             </section>
+             <div class="slds-backdrop slds-backdrop_open"></div>
+        </lightning-record-edit-form>
+
+    </lightning-card>
+</template>
