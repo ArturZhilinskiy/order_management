@@ -5,10 +5,14 @@
             </lightning-messages>
             <div class="slds-m-around--small">
                 <lightning-input-field 
-                    field-name={product.fields.family}>
+                    field-name={product.fields.family}
+                    onchange={handleFilterChange}
+                    data-my-id="family">
                 </lightning-input-field>
                 <lightning-input-field 
-                    field-name={product.fields.type}>
+                    field-name={product.fields.type}
+                    onchange={handleFilterChange}
+                    data-my-id="type">
                 </lightning-input-field>
             </div>
         </lightning-record-edit-form>

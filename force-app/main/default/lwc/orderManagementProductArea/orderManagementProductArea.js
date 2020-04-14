@@ -20,6 +20,12 @@ export default class OrderManagementProductArea extends LightningElement {
 
     productNameForSearch = '';
 
+    filter = {
+        name    : '',
+        family  : '',
+        type    : ''
+    }
+
     @wire( getListUi, { objectApiName: PRODUCT_OBJECT, listViewApiName: '$listViewApiName'})
     loadProducts(result) {
         if (result.data) {
@@ -36,7 +42,7 @@ export default class OrderManagementProductArea extends LightningElement {
                 };
                 this.allProducts.push(product);
             }
-            this.filterProduts(this.productNameForSearch);
+            this.filterProduts();
         } else if (result.error) {
             const evt = new ShowToastEvent({
                 title: "Error",
@@ -49,6 +55,7 @@ export default class OrderManagementProductArea extends LightningElement {
 
     connectedCallback() {
         registerListener('allProductListUpdate', this.loadAllProducts, this);
+        registerListener('filtersChanged', this.changeFilters, this);
     }
 
     disconnectedCallback() {
@@ -59,18 +66,31 @@ export default class OrderManagementProductArea extends LightningElement {
         this.listViewApiName = this.listViewApiName == 'orderManagement_All' ? 'OrderManagement_All' : 'orderManagement_All';
     }
 
-    handleSearchChange(event) {
-        this.productNameForSearch = ((event.target.value).trim()).toLowerCase();
-        this.filterProduts(this.productNameForSearch);
+    changeFilters(data) {     
+        let filterData = JSON.parse(data); 
+        this.filter.family = filterData.family;
+        this.filter.type   = filterData.type;
+
+        this.filterProduts();
     }
 
-    filterProduts(searchValue) {
-        this.filteredProducts = this.allProducts.filter(value => {
-            let nameValue = (value.name).toLowerCase();
-            return nameValue.includes(searchValue);
-        });
+    handleSearchChange(event) {
+        this.filter.name = ((event.target.value).trim()).toLowerCase();
+        this.filterProduts();
+    }
 
-        console.log(this.filteredProducts);
+    filterProduts() {
+        this.filteredProducts = this.allProducts.filter(product => {
+            let name   = (product.name).toLowerCase();
+            let family = (product.family);
+            let type   = (product.type);
+
+            return  this.filter.type 
+                ? name.includes(this.filter.name) && (family == this.filter.family && type == this.filter.type) 
+                : this.filter.family
+                ? name.includes(this.filter.name) && (family == this.filter.family) 
+                : name.includes(this.filter.name);
+        });
     }
 
 }
