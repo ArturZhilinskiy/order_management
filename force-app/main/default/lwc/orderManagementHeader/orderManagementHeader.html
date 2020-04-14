@@ -45,22 +45,37 @@
                     <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
                         <lightning-layout multiple-rows="true">
                             <lightning-layout-item size="6">
-                                <lightning-input-field field-name={product.fields.image}></lightning-input-field>
+                                <lightning-input-field 
+                                    field-name={product.fields.image}>
+                                </lightning-input-field>
                             </lightning-layout-item>
                             <lightning-layout-item size="6">
-                                <lightning-input-field field-name={product.fields.name}></lightning-input-field>
+                                <lightning-input-field 
+                                    field-name={product.fields.name}
+                                    required>
+                                </lightning-input-field>
                             </lightning-layout-item>
                             <lightning-layout-item size="6">
-                                <lightning-input-field field-name={product.fields.family}></lightning-input-field>
+                                <lightning-input-field 
+                                    field-name={product.fields.family} 
+                                    required>
+                                </lightning-input-field>
                             </lightning-layout-item>
                             <lightning-layout-item size="6">
-                                <lightning-input-field field-name={product.fields.type}></lightning-input-field>
+                                <lightning-input-field 
+                                    field-name={product.fields.type} 
+                                    required>
+                                </lightning-input-field>
                             </lightning-layout-item>
                             <lightning-layout-item size="6">
-                                <lightning-input-field field-name={product.fields.price}></lightning-input-field>
+                                <lightning-input-field 
+                                    field-name={product.fields.price}>
+                                </lightning-input-field>
                             </lightning-layout-item>
                             <lightning-layout-item size="12">
-                                <lightning-input-field field-name={product.fields.description}></lightning-input-field>
+                                <lightning-input-field 
+                                    field-name={product.fields.description}>
+                                </lightning-input-field>
                             </lightning-layout-item>
                         </lightning-layout>
                     </div>
