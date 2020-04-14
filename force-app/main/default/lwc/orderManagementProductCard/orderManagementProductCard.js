@@ -1,12 +1,31 @@
 import { LightningElement, api } from 'lwc';
 
-export default class OrderManagementProductCard extends LightningElement {
+import PRODUCT_OBJECT from '@salesforce/schema/Product__c';
+
+import { NavigationMixin } from 'lightning/navigation';
+
+
+export default class OrderManagementProductCard extends NavigationMixin(LightningElement) {
     @api product = {
-        name        : 'Product Name',
+        id          : '',
+        name        : '',
         image       : '',
-        family      : 'Food',
-        type        : 'Pizza',
-        price       : '200',
-        description : 'Lal la la la'
+        family      : '',
+        type        : '',
+        price       : '',
+        description : ''
     }
+
+    handleDetailsClick() {
+        this[NavigationMixin.Navigate]({
+            type: 'standard__recordPage',
+            attributes: {
+                recordId: this.product.id, 
+                objectApiName: PRODUCT_OBJECT,
+                actionName: 'view'
+            },
+        });
+
+    }
+
 }
