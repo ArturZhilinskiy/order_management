@@ -32,6 +32,7 @@ export default class OrderManagementProductArea extends LightningElement {
                     type        : elem.fields.Type__c.value,  
                     name        : elem.fields.Name.value,  
                     price       : elem.fields.Price__c.value,  
+                    image       : elem.fields.Image__c.value,  
                 };
                 this.allProducts.push(product);
             }
