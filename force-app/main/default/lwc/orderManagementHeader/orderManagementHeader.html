@@ -24,7 +24,7 @@
         
         <lightning-record-edit-form
             if:true={showCreateProductForm}
-            object-api-name="Product__c"
+            object-api-name={product.objectApiName}
             onsuccess={handleSuccess}>
             <lightning-messages>
             </lightning-messages>
