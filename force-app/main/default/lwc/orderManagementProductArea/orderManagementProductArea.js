@@ -25,10 +25,14 @@ export default class OrderManagementProductArea extends LightningElement {
         if (result.data) {
             this.allProducts = [];
             for (let elem of result.data.records.records) {
-                let product = {};
-                for(let field in elem.fields) {
-                    product[field] = elem.fields[field].value;
-                }
+                let product = {
+                    id          : elem.fields.Id.value,  
+                    description : elem.fields.Description__c.value,  
+                    family      : elem.fields.Family__c.value,  
+                    type        : elem.fields.Type__c.value,  
+                    name        : elem.fields.Name.value,  
+                    price       : elem.fields.Price__c.value,  
+                };
                 this.allProducts.push(product);
             }
             this.filterProduts(this.productNameForSearch);
@@ -61,7 +65,7 @@ export default class OrderManagementProductArea extends LightningElement {
 
     filterProduts(searchValue) {
         this.filteredProducts = this.allProducts.filter(value => {
-            let nameValue = (value.Name).toLowerCase();
+            let nameValue = (value.name).toLowerCase();
             return nameValue.includes(searchValue);
         });
 
