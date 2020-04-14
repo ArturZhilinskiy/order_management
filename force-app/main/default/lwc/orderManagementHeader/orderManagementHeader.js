@@ -12,8 +12,6 @@ import PRODUCT_TYPE_FIELD from '@salesforce/schema/Product__c.Type__c';
 import PRODUCT_PRICE_FIELD from '@salesforce/schema/Product__c.Price__c';
 import PRODUCT_DESCRIPTION_FIELD from '@salesforce/schema/Product__c.Description__c';
 
-
-
 import ISMANAGER_FIELD from '@salesforce/schema/User.isManager__c';
 
 import currentUserId from '@salesforce/user/Id'
@@ -21,9 +19,15 @@ import { getRecord, getFieldValue } from 'lightning/uiRecordApi';
 
 import { ShowToastEvent } from 'lightning/platformShowToastEvent'
 
+import{ CurrentPageReference } from 'lightning/navigation';
+import { fireEvent } from 'c/pubsub';
+
 
 export default class OrderManagementHeader extends LightningElement {
     @api recordId = '0015I0000048a4qQAA';
+    
+    @wire(CurrentPageReference)
+    pageRef;
 
     objectApiName = ACCOUNT_OBJECT;
     accountFields = [ACCOUNT_NAME_FIELD, ACCOUNT_NUMBER_FIELD];
@@ -60,6 +64,8 @@ export default class OrderManagementHeader extends LightningElement {
             variant: "success"
         });
         this.dispatchEvent(evt);
+
+        fireEvent(this.pageRef, 'addProduct');
 
         this.showCreateProductForm = false;
     }
