@@ -24,7 +24,7 @@ import { fireEvent } from 'c/pubsub';
 
 
 export default class OrderManagementHeader extends LightningElement {
-    @api recordId = '0015I0000048a4qQAA';
+    @api recordId;
     
     @wire(CurrentPageReference)
     pageRef;
