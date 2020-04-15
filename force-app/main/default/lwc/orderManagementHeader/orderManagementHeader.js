@@ -20,7 +20,7 @@ import { getRecord, getFieldValue } from 'lightning/uiRecordApi';
 import { ShowToastEvent } from 'lightning/platformShowToastEvent'
 
 import{ CurrentPageReference } from 'lightning/navigation';
-import { fireEvent } from 'c/pubsub';
+import { registerListener, unregisterAllListeners, fireEvent } from 'c/pubsub';
 
 
 export default class OrderManagementHeader extends LightningElement {
@@ -49,9 +49,20 @@ export default class OrderManagementHeader extends LightningElement {
 
     @track showCreateProductForm = false;
 
+    productCart = [];
+
     get isManager() {
         return getFieldValue(this.currentUser.data, ISMANAGER_FIELD);
     }
+
+    connectedCallback() {
+        registerListener('addProductToCart', this.addToProductCart, this);
+    }
+
+    disconnectedCallback() {
+        unregisterAllListeners(this);
+    }
+
 
     handleCreateProductClick() {
         this.showCreateProductForm = true;
@@ -72,5 +83,17 @@ export default class OrderManagementHeader extends LightningElement {
 
     handleCancel() {
         this.showCreateProductForm = false;
+    }
+
+    addToProductCart(data) {
+        let selectedProduct = JSON.parse(data);
+        this.productCart.push(selectedProduct);
+        
+        const evt = new ShowToastEvent({
+            title: "Product added to the cart",
+            message: "Product Name: " + selectedProduct.name,
+            variant: "success"
+        });
+        this.dispatchEvent(evt);
     }
 }
