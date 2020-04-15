@@ -6,20 +6,20 @@
 
     <aura:html tag="style">
         .slds-backdrop {
-        background: rgba(255, 255, 255, 0.75) !important;
+            background: rgba(255, 255, 255, 0.75) !important;
         }
         .backgroundSpinner{
-        background: rgba(0, 0, 0, 0) !important;
+            background: rgba(0, 0, 0, 0) !important;
         }
         .modal-body {
-        background: rgba(0, 0, 0, 0) !important;
-        box-shadow: none !important;
+            background: rgba(0, 0, 0, 0) !important;
+            box-shadow: none !important;
         }
         .closeIcon {
-        display:none !important;
+            display:none !important;
         }
         .desktop {
-        overflow: visible !important;
+            overflow: visible !important;
         }
     </aura:html>
 
