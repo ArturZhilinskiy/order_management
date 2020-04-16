@@ -22,12 +22,35 @@ import { ShowToastEvent } from 'lightning/platformShowToastEvent'
 import{ CurrentPageReference } from 'lightning/navigation';
 import { registerListener, unregisterAllListeners, fireEvent } from 'c/pubsub';
 
+const actions = [
+    { label: 'Delete', name: 'delete' }
+];
+
+const columns = [
+    { label: 'Name', fieldName: 'name' },
+    { label: 'Price', fieldName: 'price', type: 'currency' },
+    { label: 'Quantity', fieldName: 'quantity', type: 'number' },
+    {
+        type: 'action',
+        typeAttributes: { rowActions: actions },
+    }
+];
 
 export default class OrderManagementHeader extends LightningElement {
     @api recordId;
     
     @wire(CurrentPageReference)
     pageRef;
+
+    get recordIdFromState(){
+        return this.pageRef.state.c__recordId; 
+    }
+
+    renderedCallback() {
+        if (!this.recordId) {
+            this.recordId = this.recordIdFromState;
+        }
+    }
 
     objectApiName = ACCOUNT_OBJECT;
     accountFields = [ACCOUNT_NAME_FIELD, ACCOUNT_NUMBER_FIELD];
@@ -48,8 +71,11 @@ export default class OrderManagementHeader extends LightningElement {
     currentUser;
 
     @track showCreateProductForm = false;
+    @track showProductCart = false;
 
-    productCart = [];
+    @track columns = columns; 
+
+    @track productCart = [];
 
     get isManager() {
         return getFieldValue(this.currentUser.data, ISMANAGER_FIELD);
@@ -81,13 +107,36 @@ export default class OrderManagementHeader extends LightningElement {
         this.showCreateProductForm = false;
     }
 
-    handleCancel() {
+    handleCreateProductFormCancel() {
         this.showCreateProductForm = false;
+    }
+
+    handleCartClick() {
+        this.showProductCart = true;
+    }
+
+    handleProductCardCancel() {
+        this.showProductCart = false;
+    }
+
+    handleCheckoutClick() {
+
+        this.showProductCart = false;
     }
 
     addToProductCart(data) {
         let selectedProduct = JSON.parse(data);
-        this.productCart.push(selectedProduct);
+        
+        let elemIndex = this.productCart.findIndex(elem => {
+            console.log(elem.productId);
+            return elem.productId == selectedProduct.id
+        });
+
+        if (elemIndex != -1) {
+            this.productCart[elemIndex].quantity += 1;
+        } else {
+            this.productCart.push(this.createOrderItem(selectedProduct)); 
+        }
         
         const evt = new ShowToastEvent({
             title: "Product added to the cart",
@@ -95,5 +144,41 @@ export default class OrderManagementHeader extends LightningElement {
             variant: "success"
         });
         this.dispatchEvent(evt);
+    }
+
+    createOrderItem(product) {
+        let orderItem = {
+            productId : product.id,
+            name      : product.name,
+            quantity  : 1,
+            price     : product.price
+        }
+        return orderItem;
+    }
+
+    handleRowAction(event) {
+        const actionName = event.detail.action.name;
+        const row = event.detail.row;
+        if (actionName == 'delete') {
+            let rows = JSON.parse(JSON.stringify(this.productCart));
+
+            let rowIndex = rows.findIndex(item => {
+                return item.productId == row.productId;
+            });
+            
+            if (rows[rowIndex].quantity >= 2) {
+                rows[rowIndex].quantity -= 1;
+            } else {
+                rows.splice(rowIndex, 1);
+            }
+
+            this.productCart = rows;
+        }
+    }
+
+    get totalPrice() {
+        return this.productCart.reduce((acc, item) => {
+            return acc += item.quantity * item.price;
+        }, 0);
     }
 }
