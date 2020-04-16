@@ -22,6 +22,8 @@ import { ShowToastEvent } from 'lightning/platformShowToastEvent'
 import{ CurrentPageReference } from 'lightning/navigation';
 import { registerListener, unregisterAllListeners, fireEvent } from 'c/pubsub';
 
+import createOrder from '@salesforce/apex/OrderManager.createOrder';
+
 const actions = [
     { label: 'Delete', name: 'delete' }
 ];
@@ -120,8 +122,34 @@ export default class OrderManagementHeader extends LightningElement {
     }
 
     handleCheckoutClick() {
+        let order = {
+            accountId : this.recordId,
+            orderItems : this.productCart
+        }
 
-        this.showProductCart = false;
+        let orderJSON = JSON.stringify(order);
+        
+        createOrder({orderJSON: orderJSON})
+            .then(result => {
+                const evt = new ShowToastEvent({
+                    title: "Order created",
+                    message: "Order Id: " + result,
+                    variant: "success"
+                });
+                this.dispatchEvent(evt);
+                
+                this.productCart = [];
+
+                this.showProductCart = false;
+            })
+            .catch(error => {
+                const evt = new ShowToastEvent({
+                    title: "Error",
+                    message: "Message: " + error.body.message,
+                    variant: "error"
+                });
+                this.dispatchEvent(evt);
+            });
     }
 
     addToProductCart(data) {
