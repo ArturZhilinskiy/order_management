@@ -1,12 +1,8 @@
 ({
-    myAction : function(component, event, helper) {
-
-    },
-
     doInit : function(component, helper) {
         $A.get("e.force:closeQuickAction").fire();
-        var recordId = component.get('v.recordId');
-        var pageReference = { 
+        let recordId = component.get('v.recordId');
+        let pageReference = { 
             "type": "standard__navItemPage",
             "attributes": { 
                 "apiName": "Order_Management"
@@ -15,9 +11,7 @@
                 "c__recordId": recordId 
             }
         };
-        component.set("v.pageReference", pageReference);
-        var navService = component.find("navService");
-        var pageReference = component.get("v.pageReference");
+        let navService = component.find("navService");
         navService.navigate(pageReference);
     }
 })
