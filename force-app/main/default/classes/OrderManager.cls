@@ -1,10 +1,7 @@
 public with sharing class OrderManager {
-    public OrderManager() {
-
-    }
 
     @AuraEnabled
-    public static void createOrder(String orderJSON) {
+    public static Id createOrder(String orderJSON) {
         
         OrderWrapper wrappedOrder = (OrderWrapper) JSON.deserialize(orderJSON, OrderWrapper.class);
 
@@ -13,6 +10,8 @@ public with sharing class OrderManager {
 
         List<OrderItem__c> orderItems = getOrderItems(wrappedOrder, order.Id);
         insert orderItems;
+
+        return order.Id;
     }
 
     private static List<OrderItem__c> getOrderItems(OrderWrapper wrappedOrder, Id orderId) {
