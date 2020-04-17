@@ -22,7 +22,7 @@ public with sharing class OrderManager {
                 OrderId__c   = orderId,
                 ProductId__c = wrappedOrderItem.productId,
                 Quantity__c  = wrappedOrderItem.quantity,
-                Price__c     = wrappedOrderItem.price
+                Price__c     = wrappedOrderItem.price * wrappedOrderItem.quantity
             );
             
             orderItems.add(orderItem);
