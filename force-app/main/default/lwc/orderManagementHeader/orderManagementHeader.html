@@ -118,6 +118,7 @@
                         <div style="height: 300px;">
                             <lightning-datatable
                                 key-field="productId"
+                                hide-checkbox-column="true"
                                 data={productCart}
                                 columns={columns}
                                 onrowaction={handleRowAction}>
@@ -139,6 +140,7 @@
                             class="slds-m-horizontal--small"
                             variant="brand"
                             label="Checkout"
+                            disabled={isProductCartEmpty}
                             onclick={handleCheckoutClick}>
                         </lightning-button>
                         <lightning-button

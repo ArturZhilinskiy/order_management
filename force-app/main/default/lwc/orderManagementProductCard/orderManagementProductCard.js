@@ -22,14 +22,7 @@ export default class OrderManagementProductCard extends NavigationMixin(Lightnin
     pageRef;
 
     handleDetailsClick() {
-        this[NavigationMixin.Navigate]({
-            type: 'standard__recordPage',
-            attributes: {
-                recordId: this.product.id, 
-                objectApiName: PRODUCT_OBJECT,
-                actionName: 'view'
-            },
-        });
+        window.open('/lightning/r/Product__c/'+this.product.id+'/view', '_blank');
     }
 
     handleAddClick() {

@@ -83,6 +83,10 @@ export default class OrderManagementHeader extends LightningElement {
         return getFieldValue(this.currentUser.data, ISMANAGER_FIELD);
     }
 
+    get isProductCartEmpty() {
+        return !this.productCart.length;
+    }
+
     connectedCallback() {
         registerListener('addProductToCart', this.addToProductCart, this);
     }
@@ -139,7 +143,6 @@ export default class OrderManagementHeader extends LightningElement {
                 this.dispatchEvent(evt);
                 
                 this.productCart = [];
-
                 this.showProductCart = false;
             })
             .catch(error => {
@@ -165,13 +168,6 @@ export default class OrderManagementHeader extends LightningElement {
         } else {
             this.productCart.push(this.createOrderItem(selectedProduct)); 
         }
-        
-        const evt = new ShowToastEvent({
-            title: "Product added to the cart",
-            message: "Product Name: " + selectedProduct.name,
-            variant: "success"
-        });
-        this.dispatchEvent(evt);
     }
 
     createOrderItem(product) {
@@ -201,6 +197,7 @@ export default class OrderManagementHeader extends LightningElement {
             }
 
             this.productCart = rows;
+            this.setProductCartToSessionStorage();
         }
     }
 
