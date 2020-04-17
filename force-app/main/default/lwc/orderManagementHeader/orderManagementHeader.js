@@ -49,7 +49,7 @@ export default class OrderManagementHeader extends LightningElement {
     }
 
     renderedCallback() {
-        if (!this.recordId) {
+        if (!this.recordId && this.recordIdFromState) {
             this.recordId = this.recordIdFromState;
         }
     }
