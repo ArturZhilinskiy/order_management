@@ -1,0 +1,12 @@
+<apex:page >
+  <h1>Post Install Instructions</h1>
+  <p></p>
+  <h2>Congratulations! Package was installed successfully</h2>
+  <p>For fully work with package you should:</p>
+  <ol>
+      <li>On Account Page layout add quick action "Order Management"</li>
+      <li>On User Page Layout add filed "isManager"</li>
+  </ol>
+  
+  <h1>Enjoy our package!</h1>
+</apex:page>

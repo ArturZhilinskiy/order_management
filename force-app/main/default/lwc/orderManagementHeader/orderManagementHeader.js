@@ -197,7 +197,6 @@ export default class OrderManagementHeader extends LightningElement {
             }
 
             this.productCart = rows;
-            this.setProductCartToSessionStorage();
         }
     }
 
